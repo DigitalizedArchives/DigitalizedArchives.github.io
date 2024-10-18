@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decade 1200</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> <!-- Smooth font -->
+    <style>
+        body {
+            display: flex;
+            margin: 0;
+            font-family: 'Roboto', sans-serif; /* Updated font */
+            height: 100vh;
+            background-color: #F9F5F1; /* Lighter background for warmth */
+            color: #3D2A2A; /* Dark text for contrast */
+            line-height: 1.6;
+        }
+        nav {
+            width: 250px;
+            background-color: #3C3A39; /* Darker sidebar */
+            color: #C6A566; /* Light golden color for links */
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            border-right: 3px solid #C6A566; /* Border to separate sidebar */
+            overflow-y: auto;
+        }
+        nav h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #E5D6B2; /* Lighter color for header */
+        }
+        .nav-arrows {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0; /* Space between arrows and menu items */
+        }
+        .arrow {
+            cursor: pointer;
+            font-size: 24px;
+            color: #C6A566;
+            background-color: #4D4B4A; /* Darker background for arrows */
+            border: none;
+            border-radius: 50%;
+            padding: 10px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .arrow:hover {
+            background-color: #C6A566; /* Change background on hover */
+            color: #3C3A39; /* Change text color on hover */
+        }
+        .home-button {
+            display: block;
+            text-align: center;
+            padding: 10px 15px;
+            color: #E5D6B2; /* Lighter color for text */
+            background-color: #4D4B4A; /* Darker background for home button */
+            border: none;
+            border-radius: 5px; /* Rounded corners for button */
+            text-decoration: none; /* Remove underline from link */
+            transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+        }
+        .home-button:hover {
+            background-color: #C6A566; /* Change background on hover */
+            color: #3C3A39; /* Change text color on hover */
+        }
+        main {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            background-color: #F9F5F1;
+            padding: 20px;
+        }
+        h1, h2 {
+            margin-top: 20px;
+            margin-bottom: 10px;
+            text-align: left;
+            width: 100%;
+            color: #2A2A2A; /* Darker heading color */
+        }
+        h1 {
+            font-size: 28px;
+        }
+        h2 {
+            font-size: 22px;
+            border-bottom: 2px solid #C6A566; /* Underline for sections */
+            padding-bottom: 5px;
+        }
+        #content {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            margin-top: 20px; /* Space above the content */
+        }
+        #map {
+            width: 800px; /* Increased width for the map */
+            height: 400px; /* Adjust as necessary */
+            margin-right: 20px; /* Space between map and text content */
+            border: 2px solid #C6A566; /* Border for the map */
+            border-radius: 8px; /* Rounded corners for the map */
+        }
+        #text-content {
+            flex: 1; /* Allows text content to take up available space */
+            padding: 10px;
+            background-color: #FFFFFF; /* White background for text */
+            border-radius: 8px; /* Rounded corners for the text area */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+        }
+        ul {
+            list-style-type: none; /* Remove default bullet points */
+            padding: 0; /* Remove padding */
+        }
+        li {
+            background-color: #EDE6D4; /* Light background for events */
+            margin: 5px 0; /* Spacing between events */
+            padding: 10px;
+            border-radius: 4px; /* Rounded corners for events */
+            cursor: pointer; /* Change cursor to pointer for clickable items */
+            transition: background-color 0.3s; /* Smooth background transition */
+        }
+        li:hover {
+            background-color: #D3CFC4; /* Change background on hover */
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <h2>Decade 1200</h2>
+        <div class="nav-arrows">
+            <a href="1190.html" class="arrow">&uarr;</a>
+        </div>
+        <a href="index.html" class="home-button">Home</a> <!-- Stylish home button -->
+        <div class="nav-arrows">
+            <a href="1210.html" class="arrow">&darr;</a>
+        </div>
+    </nav>
+    
+    <main>
+        <h1>Overview</h1>
+        <p>The 1200s marked significant political and cultural changes in Europe, including the rise of universities and the establishment of powerful monarchies.</p>
+        
+        <h2>Key Events</h2>
+        <ul>
+            <li onclick="updateTextContent(events[0])"><strong>1204:</strong> The Fourth Crusade results in the sack of Constantinople, significantly impacting the Byzantine Empire.</li>
+            <li onclick="updateTextContent(events[1])"><strong>1206:</strong> Genghis Khan unifies the Mongol tribes, beginning the expansion of the Mongol Empire.</li>
+            <li onclick="updateTextContent(events[2])"><strong>1215:</strong> The Magna Carta is signed in England, establishing the principle of legal limits on royal power.</li>
+            <li onclick="updateTextContent(events[3])"><strong>1220:</strong> The University of Paris is formally established, becoming a major center for learning in Europe.</li>
+        </ul>
+
+        <h2>Map</h2>
+        <div id="content">
+            <div id="map"></div>
+            <div id="text-content">
+                <p>Select a marker on the map or an event in the list to view detailed information about the events of the decade.</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map for the decade
+        var map = L.map('map').setView([45, 10], 4); // Centered over Europe
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+        
+        // Add markers for key events in the decade
+        var events = [
+            {
+                year: 1204,
+                title: 'Sack of Constantinople',
+                description: 'The Fourth Crusade leads to the sack of Constantinople, profoundly affecting the Byzantine Empire.',
+                coordinates: [41.0082, 28.9784] // Constantinople, Turkey
+            },
+            {
+                year: 1206,
+                title: 'Genghis Khan unifies Mongol tribes',
+                description: 'Genghis Khan rises to power, unifying the Mongol tribes and beginning their expansion.',
+                coordinates: [44.0, 105.0] // Mongolia
+            },
+            {
+                year: 1215,
+                title: 'Magna Carta signed',
+                description: 'The Magna Carta is signed, marking a significant limit on royal power in England.',
+                coordinates: [51.5085, -0.1257] // London, England
+            },
+            {
+                year: 1220,
+                title: 'University of Paris established',
+                description: 'The University of Paris is formally established, becoming a major center for European learning.',
+                coordinates: [48.8534, 2.3488] // Paris, France
+            }
+        ];
+
+        // Function to update the text content and center the map
+        function updateTextContent(event) {
+            var textContent = document.getElementById('text-content');
+            textContent.innerHTML = `<h3>${event.title} (${event.year})

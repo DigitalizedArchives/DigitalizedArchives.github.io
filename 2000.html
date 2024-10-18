@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Year 2000</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            height: 100vh;
+            background-color: #F9F5F1;
+            color: #333;
+            line-height: 1.6;
+        }
+        nav {
+            width: 250px;
+            background: linear-gradient(135deg, #3C3A39 30%, #4A4746 100%);
+            color: #EDE6D4;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            border-right: 3px solid #C6A566;
+        }
+        nav h2 {
+            font-size: 24px;
+            margin: 20px 0;
+            color: #E5D6B2;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        nav a {
+            color: #C6A566;
+            text-decoration: none;
+            display: block;
+            padding: 8px 12px;
+            border: 2px solid #C6A566;
+            border-radius: 25px;
+            background-color: #E5D6B2;
+            margin-bottom: 20px;
+            transition: background-color 0.3s, color 0.3s;
+            width: auto;
+            text-align: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        nav a:hover {
+            background-color: #C6A566;
+            color: #FFFFFF;
+        }
+        .nav-arrow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 10px 0;
+        }
+        .nav-arrow button {
+            font-size: 24px;
+            padding: 10px;
+            border: none;
+            border-radius: 50%;
+            background-color: #E5D6B2;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 5px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+            width: 50px;
+            height: 50px;
+        }
+        .nav-arrow button:hover {
+            background-color: #C6A566;
+            color: #FFFFFF;
+        }
+        .decade {
+            font-size: 20px;
+            margin: 10px 0;
+            color: #EDE6D4;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        main {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            background-color: #FFFFFF;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        h1, h2 {
+            margin-top: 10px;
+            margin-bottom: 5px;
+            color: #2A2A2A;
+            width: 100%;
+            text-align: left;
+        }
+        h1 {
+            font-size: 28px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+        h2 {
+            font-size: 22px;
+            border-bottom: 2px solid #C6A566;
+            padding-bottom: 5px;
+        }
+        #content {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            margin-top: 10px;
+        }
+        #map {
+            width: 800px;
+            height: 400px;
+            margin-right: 20px;
+            border: 2px solid #C6A566;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        #text-content {
+            flex: 1;
+            padding: 20px;
+            background-color: #EDE6D4;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #D3CFC4;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        li:hover {
+            background-color: #C6A566;
+        }
+        .event-image {
+            width: 100%;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        .overview {
+            transition: all 0.3s ease-in-out;
+            background-color: #F5F5F5;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <h2>Menu</h2>
+        <a href="index.html">Home</a>
+        <div class="nav-arrow">
+            <button id="prevButton">↑</button>
+            <span class="decade">2000</span>
+            <button id="nextButton">↓</button>
+        </div>
+    </nav>
+
+    <main>
+        <section class="overview">
+            <h2>Overview</h2>
+            <p>The year 2000 marked the turn of the millennium, accompanied by significant events in technology, politics, and culture.</p>
+        </section>
+        
+        <h2>Key Events</h2>
+        <ul>
+            <li data-event="0"><strong>Y2K Bug:</strong> Fears of a global computer malfunction as the year 2000 arrives.</li>
+            <li data-event="1"><strong>Dot-com Bubble Burst:</strong> The collapse of internet-based companies after a speculative boom.</li>
+            <li data-event="2"><strong>Vladimir Putin Becomes President:</strong> Vladimir Putin becomes the President of Russia, beginning his long political tenure.</li>
+            <li data-event="3"><strong>Sydney Olympics:</strong> The 2000 Summer Olympics take place in Sydney, Australia, drawing international attention.</li>
+        </ul>
+
+        <h2>Map</h2>
+        <div id="content">
+            <div id="map"></div>
+            <div id="text-content">
+                <p>Select a marker on the map or an event in the list to view detailed information about the events of the year 2000.</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map for the year 2000
+        var map = L.map('map').setView([20.0, -20.0], 2);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+        
+        // Define key events for 2000
+        var events = [
+            {
+                year: 2000,
+                title: 'Y2K Bug',
+                description: 'Fears of a global computer malfunction as the year 2000 arrives.',
+                coordinates: [37.7749, -122.4194],
+                image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Y2K_bug_warning.jpg/640px-Y2K_bug_warning.jpg'
+            },
+            {
+                year: 2000,
+                title: 'Dot-com Bubble Burst',
+                description: 'The collapse of internet-based companies after a speculative boom.',
+                coordinates: [40.7128, -74.0060],
+                image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Dot_com_bubble.svg/640px-Dot_com_bubble.svg.png'
+            },
+            {
+                year: 2000,
+                title: 'Vladimir Putin Becomes President',
+                description: 'Vladimir Putin becomes the President of Russia, beginning his long political tenure.',
+                coordinates: [55.7558, 37.6176],
+                image: 'https://upload.wikimedia.org/wikipedia/commons/6/6c/Putin_2019.jpg'
+            },
+            {
+                year: 2000,
+                title: 'Sydney Olympics',
+                description: 'The 2000 Summer Olympics take place in Sydney, Australia.',
+                coordinates: [-33.8688, 151.2093],
+                image: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Olympic_rings_with_flag.jpg'
+            }
+        ];
+
+        // Function to update text content and center the map
+        function updateTextContent(event) {
+            var textContent = document.getElementById('text-content');
+            textContent.innerHTML = `
+                <h2>${event.title}</h2>
+                <p>${event.description}</p>
+                <img src="${event.image}" alt="${event.title}" class="event-image">
+            `;
+            map.setView(event.coordinates, 6);
+        }
+
+        // Function to navigate between pages
+        function navigateTo(page) {
+            window.location.href = page;
+        }
+
+        document.getElementById('prevButton').addEventListener('click', function() {
+            navigateTo('1990.html'); // Redirects to the 1990 page
+        });
+        document.getElementById('nextButton').addEventListener('click', function() {
+            navigateTo('2010.html'); // Redirects to the 2010 page
+        });
+
+        // Adding event listeners to list items
+        document.querySelectorAll('ul li').forEach(function(item) {
+            item.addEventListener('click', function() {
+                const eventIndex = this.getAttribute('data-event');
+                updateTextContent(events[eventIndex]);
+            });
+        });
+
+        // Adding markers to the map for each event
+        events.forEach(event => {
+            L.marker(event.coordinates)
+                .addTo(map)
+                .bindPopup(`<strong>${event.title}</strong><br>${event.description}`)
+                .on('click', function() {
+                    updateTextContent(event);
+                });
+        });
+    </script>
+</body>
+</html>

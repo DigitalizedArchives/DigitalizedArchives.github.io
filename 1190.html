@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decade 1190</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            margin: 0;
+            font-family: 'Roboto', sans-serif; /* Changed font for modern look */
+            height: 100vh;
+            background-color: #F2F2F2; /* Light grey background for a softer look */
+            color: #333; /* Dark text for contrast */
+            line-height: 1.6;
+        }
+        nav {
+            width: 250px; /* Sidebar width */
+            background: linear-gradient(135deg, #3C3A39 30%, #4A4746 100%); /* Gradient background */
+            color: #EDE6D4; /* Light color for text */
+            padding: 20px; /* Padding for sidebar */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column; /* Vertical layout */
+            align-items: center; /* Center items */
+            justify-content: flex-start; /* Start aligning items */
+            border-right: 3px solid #C6A566; /* Border to separate sidebar */
+        }
+        nav h2 {
+            font-size: 24px; /* Header font size */
+            margin-bottom: 20px; /* Space below header */
+            color: #E5D6B2; /* Lighter color for header */
+            text-align: center; /* Center header text */
+        }
+        nav a {
+            color: #C6A566;
+            text-decoration: none;
+            display: block;
+            padding: 12px 20px; /* Button padding */
+            border: 2px solid #C6A566; /* Button border */
+            border-radius: 25px; /* Rounded corners */
+            background-color: #E5D6B2; /* Button background color */
+            margin: 10px 0; /* Space between buttons */
+            transition: background-color 0.3s, color 0.3s; /* Smooth transitions */
+            width: 100%; /* Full width buttons */
+            text-align: center; /* Center text in buttons */
+            font-weight: bold; /* Bold text */
+        }
+        nav a:hover {
+            background-color: #C6A566; /* Darker background on hover */
+            color: #FFFFFF; /* Change text color on hover */
+        }
+        .nav-arrow {
+            display: flex;
+            flex-direction: column; /* Align arrows vertically */
+            margin: 10px 0;
+        }
+        .nav-arrow button {
+            font-size: 24px; /* Arrow size */
+            padding: 10px; /* Padding for arrow buttons */
+            border: none; /* No border */
+            border-radius: 50%; /* Round buttons */
+            background-color: #E5D6B2; /* Button background */
+            cursor: pointer; /* Pointer cursor */
+            transition: background-color 0.3s; /* Smooth hover transition */
+            margin: 5px 0; /* Space between arrow buttons */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+            font-weight: bold; /* Bold text */
+            width: 50px; /* Fixed width */
+            height: 50px; /* Fixed height */
+        }
+        .nav-arrow button:hover {
+            background-color: #C6A566; /* Darker background on hover */
+            color: #FFFFFF; /* Change text color on hover */
+        }
+        main {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            background-color: #F9F5F1; /* Soft background for content */
+            padding: 20px; /* Padding for main content */
+            overflow-y: auto; /* Allow scrolling */
+        }
+        h1, h2 {
+            margin-top: 20px; /* Space above headings */
+            margin-bottom: 10px; /* Space below headings */
+            color: #2A2A2A; /* Darker heading color */
+            width: 100%; /* Full width */
+            text-align: left; /* Align text to the left */
+        }
+        h1 {
+            font-size: 28px; /* Font size for main title */
+        }
+        h2 {
+            font-size: 22px; /* Font size for section titles */
+            border-bottom: 2px solid #C6A566; /* Underline for section titles */
+            padding-bottom: 5px; /* Space below underline */
+        }
+        #content {
+            display: flex;
+            flex-direction: row; /* Align content side by side */
+            width: 100%;
+            margin-top: 20px; /* Space above the content */
+        }
+        #map {
+            width: 800px; /* Width for the map */
+            height: 400px; /* Height for the map */
+            margin-right: 20px; /* Space between map and text content */
+            border: 2px solid #C6A566; /* Border for the map */
+            border-radius: 8px; /* Rounded corners for the map */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+        }
+        #text-content {
+            flex: 1; /* Take up remaining space */
+            padding: 20px; /* Padding for text content */
+            background-color: #FFFFFF; /* White background for text */
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+        }
+        ul {
+            list-style-type: none; /* Remove default bullet points */
+            padding: 0; /* Remove padding */
+        }
+        li {
+            background-color: #EDE6D4; /* Light background for events */
+            margin: 5px 0; /* Space between events */
+            padding: 15px; /* Padding for events */
+            border-radius: 4px; /* Rounded corners for events */
+            cursor: pointer; /* Change cursor to pointer */
+            transition: background-color 0.3s; /* Smooth background transition */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        }
+        li:hover {
+            background-color: #D3CFC4; /* Change background on hover */
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <h2>Menu</h2>
+        <a href="index.html">Home</a>
+        <div class="nav-arrow">
+            <button onclick="navigateTo('1180.html')">↑</button>
+            <button onclick="navigateTo('1200.html')">↓</button>
+        </div>
+    </nav>
+    
+    <main>
+        <h1>Decade: 1190</h1>
+        <h2>Overview</h2>
+        <p>The decade of the 1190s was significant for political changes and cultural developments, including the rise of universities and advancements in trade.</p>
+        
+        <h2>Key Events</h2>
+        <ul>
+            <li onclick="updateTextContent(events[0])"><strong>1190:</strong> The Third Crusade begins, with major leaders like Richard the Lionheart and Philip II of France participating.</li>
+            <li onclick="updateTextContent(events[1])"><strong>1191:</strong> Siege of Acre concludes, marking a crucial victory for the Crusaders.</li>
+            <li onclick="updateTextContent(events[2])"><strong>1192:</strong> Richard I returns to England, having established a truce with Saladin.</li>
+            <li onclick="updateTextContent(events[3])"><strong>1199:</strong> Death of Richard I, leading to political instability in England.</li>
+        </ul>
+
+        <h2>Map</h2>
+        <div id="content">
+            <div id="map"></div>
+            <div id="text-content">
+                <p>Select a marker on the map or an event in the list to view detailed information about the events of the decade.</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map for the decade
+        var map = L.map('map').setView([34.75, 35.5], 5); // Centered over the Crusader territories
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+        
+        // Add markers for key events in the decade
+        var events = [
+            {
+                year: 1190,
+                title: 'The Third Crusade begins',
+                description: 'Major leaders like Richard the Lionheart and Philip II of France participate in the Third Crusade.',
+                coordinates: [34.7595, 35.3255] // Near Acre, Israel
+            },
+            {
+                year: 1191,
+                title: 'Siege of Acre concludes',
+                description: 'This victory for the Crusaders marks a significant event in the Third Crusade.',
+                coordinates: [32.8999, 35.0978] // Acre, Israel
+            },
+            {
+                year: 1192,
+                title: 'Richard I returns to England',
+                description: 'Richard I, having established a truce with Saladin, returns home.',
+                coordinates: [51.5085, -0.1257] // London, England
+            },
+            {
+                year: 1199,
+                title: 'Death of Richard I',
+                description: 'The death of Richard I leads to political instability in England.',
+                coordinates: [51.5085, -0.1257] // London, England
+            }
+        ];
+
+        // Function to update the text content and center the map
+        function updateTextContent(event) {
+            var textContent = document.getElementById('text-content');
+            textContent.innerHTML = `<h3>${event.title} (${event.year})</h3>
+                                     <p>${event.description}</p>`;
+            // Center the map on the event location and zoom in
+            map.setView(event.coordinates, 6); // Zoom in to level 6
+        }
+
+        // Function to navigate to a different decade
+        function navigateTo(decade) {
+            window.location.href = decade;
+        }
+
+        // Add markers with event listeners
+        events.forEach(event => {
+            L.marker(event.coordinates).addTo(map).on('click', () => updateTextContent(event));
+        });
+    </script>
+</body>
+</html>

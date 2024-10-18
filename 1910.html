@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Year 1910</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            height: 100vh;
+            background-color: #F9F5F1; 
+            color: #333; 
+            line-height: 1.6;
+        }
+        nav {
+            width: 250px; 
+            background: linear-gradient(135deg, #3C3A39 30%, #4A4746 100%);
+            color: #EDE6D4; 
+            padding: 20px; 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: flex-start; 
+            border-right: 3px solid #C6A566; 
+        }
+        nav h2 {
+            font-size: 24px; 
+            margin: 20px 0; 
+            color: #E5D6B2; 
+            text-align: center; 
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        nav a {
+            color: #C6A566;
+            text-decoration: none;
+            display: block;
+            padding: 8px 12px; 
+            border: 2px solid #C6A566; 
+            border-radius: 25px; 
+            background-color: #E5D6B2; 
+            margin-bottom: 20px; 
+            transition: background-color 0.3s, color 0.3s; 
+            width: auto; 
+            text-align: center; 
+            font-weight: bold; 
+            font-size: 14px; 
+        }
+        nav a:hover {
+            background-color: #C6A566; 
+            color: #FFFFFF; 
+        }
+        .nav-arrow {
+            display: flex;
+            flex-direction: column; 
+            align-items: center; 
+            margin: 10px 0;
+        }
+        .nav-arrow button {
+            font-size: 24px; 
+            padding: 10px; 
+            border: none; 
+            border-radius: 50%; 
+            background-color: #E5D6B2; 
+            cursor: pointer; 
+            transition: background-color 0.3s; 
+            margin: 5px 0; 
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
+            font-weight: bold; 
+            width: 50px; 
+            height: 50px; 
+        }
+        .nav-arrow button:hover {
+            background-color: #C6A566; 
+            color: #FFFFFF; 
+        }
+        .decade {
+            font-size: 20px;
+            margin: 10px 0;
+            color: #EDE6D4;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        main {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            background-color: #FFFFFF; 
+            padding: 20px; 
+            overflow-y: auto; 
+        }
+        h1, h2 {
+            margin-top: 10px; 
+            margin-bottom: 5px; 
+            color: #2A2A2A; 
+            width: 100%; 
+            text-align: left; 
+        }
+        h1 {
+            font-size: 28px; 
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); 
+        }
+        h2 {
+            font-size: 22px; 
+            border-bottom: 2px solid #C6A566; 
+            padding-bottom: 5px; 
+        }
+        #content {
+            display: flex;
+            flex-direction: row; 
+            width: 100%;
+            margin-top: 10px; 
+        }
+        #map {
+            width: 100%; 
+            height: 400px; 
+            max-width: 800px; 
+            margin-right: 20px; 
+            border: 2px solid #C6A566; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+        }
+        #text-content {
+            flex: 1; 
+            padding: 20px; 
+            background-color: #EDE6D4; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
+        }
+        ul {
+            list-style-type: none; 
+            padding: 0; 
+        }
+        li {
+            background-color: #D3CFC4; 
+            margin: 5px 0; 
+            padding: 10px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            transition: background-color 0.3s; 
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+        }
+        li:hover {
+            background-color: #C6A566; 
+        }
+        .event-image {
+            width: 100%; /* Makes image responsive */
+            border-radius: 8px; /* Optional: adds rounded corners */
+            margin-top: 10px; /* Adds spacing above the image */
+        }
+        /* Smoother Overview Section */
+        .overview {
+            transition: all 0.3s ease-in-out; 
+            background-color: #F5F5F5; 
+            border-radius: 8px; 
+            padding: 15px; 
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <h2>Menu</h2>
+        <a href="index.html">Home</a>
+        <div class="nav-arrow">
+            <button id="prevButton">↑</button>
+            <span class="decade">1910</span>
+            <button id="nextButton">↓</button>
+        </div>
+    </nav>
+    
+    <main>
+        <section class="overview">
+            <h2>Overview</h2>
+            <p>The year 1910 was marked by significant advancements in technology and culture, including the first public radio broadcasts and notable events in the lead-up to World War I.</p>
+        </section>
+        
+        <h2>Key Events</h2>
+        <ul>
+            <li data-event="0"><strong>First Radio Broadcast:</strong> The first public radio broadcast occurs in 1910, paving the way for mass communication.</li>
+            <li data-event="1"><strong>Women Suffrage Movement:</strong> The movement gains momentum in several countries, advocating for women's right to vote.</li>
+            <li data-event="2"><strong>First Airplane Flight:</strong> The Wright brothers continue their advancements in aviation, making significant flights in 1910.</li>
+            <li data-event="3"><strong>Mexico's Revolution:</strong> The Mexican Revolution continues, leading to significant changes in the country's political landscape.</li>
+        </ul>
+
+        <h2>Map</h2>
+        <div id="content">
+            <div id="map"></div>
+            <div id="text-content">
+                <p>Select a marker on the map or an event in the list to view detailed information about the events of the year 1910.</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map for the year 1910
+        var map = L.map('map').setView([20.0, -20.0], 2);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+        
+        // Define key events for 1910 with detailed information
+        var events = [
+            {
+                year: 1910,
+                title: 'First Radio Broadcast',
+                description: 'In 1910, the first public radio broadcasts began, marking a significant step forward in communication technology. This innovation allowed for the mass transmission of information and entertainment, paving the way for future developments in broadcasting.',
+                image: 'https://example.com/radio_broadcast.jpg', // Replace with actual image URL
+                coordinates: [38.8951, -77.0364] // Washington, D.C.
+            },
+            {
+                year: 1910,
+                title: 'Women Suffrage Movement',
+                description: 'The women\'s suffrage movement gained momentum in 1910, with activists in various countries campaigning vigorously for women\'s right to vote. Key figures emerged, and public awareness increased significantly during this pivotal time in the fight for gender equality.',
+                image: 'https://example.com/suffrage_movement.jpg', // Replace with actual image URL
+                coordinates: [51.5074, -0.1278] // London, UK
+            },
+            {
+                year: 1910,
+                title: 'First Airplane Flight',
+                description: 'The Wright brothers achieved significant milestones in aviation in 1910, including public demonstrations of their flying machines. These advancements marked the beginning of the aviation era, changing transportation and warfare forever.',
+                image: 'https://example.com/wright_brothers.jpg', // Replace with actual image URL
+                coordinates: [39.9612, -82.9988] // Columbus, Ohio
+            },
+            {
+                year: 1910,
+                title: 'Mexico\'s Revolution',
+                description: 'The Mexican Revolution, which began in 1910, was a major armed struggle that transformed the political landscape of Mexico. It involved various factions fighting for reforms and led to significant changes in land ownership and civil rights.',
+                image: 'https://example.com/mexico_revolution.jpg', // Replace with actual image URL
+                coordinates: [23.6345, -102.5528] // Mexico
+            }
+        ];
+
+        // Add markers to the map
+        events.forEach((event, index) => {
+            var marker = L.marker(event.coordinates).addTo(map);
+            marker.bindPopup(event.title);
+            marker.on('click', function () {
+                // Center and zoom the map on the marker
+                map.setView(event.coordinates, 6);
+                // Display event details
+                document.getElementById('text-content').innerHTML = `<h2>${event.title}</h2><p>${event.description}</p><img src="${event.image}" alt="${event.title}" class="event-image">`;
+            });
+        });
+
+        // Handle click events on the list items
+        var listItems = document.querySelectorAll('ul li');
+        listItems.forEach((item, index) => {
+            item.addEventListener('click', function () {
+                var event = events[index];
+                // Center and zoom the map on the marker
+                map.setView(event.coordinates, 6);
+                // Display event details
+                document.getElementById('text-content').innerHTML = `<h2>${event.title}</h2><p>${event.description}</p><img src="${event.image}" alt="${event.title}" class="event-image">`;
+            });
+        });
+
+        // Navigation buttons
+        document.getElementById('prevButton').onclick = function() {
+            window.location.href = '1900.html'; // Redirect to the 1900 page
+        };
+        document.getElementById('nextButton').onclick = function() {
+            window.location.href = '1920.html'; // Redirect to the 1920 page
+        };
+    </script>
+</body>
+</html>

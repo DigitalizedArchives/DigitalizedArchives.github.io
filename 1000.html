@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Year 1000</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            height: 100vh;
+            background-color: #F9F5F1; 
+            color: #333; 
+            line-height: 1.6;
+        }
+        nav {
+            width: 250px; 
+            background: linear-gradient(135deg, #3C3A39 30%, #4A4746 100%);
+            color: #EDE6D4; 
+            padding: 20px; 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: flex-start; 
+            border-right: 3px solid #C6A566; 
+        }
+        nav h2 {
+            font-size: 24px; 
+            margin: 20px 0; 
+            color: #E5D6B2; 
+            text-align: center; 
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        nav a {
+            color: #C6A566;
+            text-decoration: none;
+            display: block;
+            padding: 8px 12px; 
+            border: 2px solid #C6A566; 
+            border-radius: 25px; 
+            background-color: #E5D6B2; 
+            margin-bottom: 20px; 
+            transition: background-color 0.3s, color 0.3s; 
+            width: auto; 
+            text-align: center; 
+            font-weight: bold; 
+            font-size: 14px; 
+        }
+        nav a:hover {
+            background-color: #C6A566; 
+            color: #FFFFFF; 
+        }
+        .nav-arrow {
+            display: flex;
+            flex-direction: column; 
+            align-items: center; 
+            margin: 10px 0;
+        }
+        .nav-arrow button {
+            font-size: 24px; 
+            padding: 10px; 
+            border: none; 
+            border-radius: 50%; 
+            background-color: #E5D6B2; 
+            cursor: pointer; 
+            transition: background-color 0.3s; 
+            margin: 5px 0; 
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
+            font-weight: bold; 
+            width: 50px; 
+            height: 50px; 
+        }
+        .nav-arrow button:hover {
+            background-color: #C6A566; 
+            color: #FFFFFF; 
+        }
+        .decade {
+            font-size: 20px;
+            margin: 10px 0;
+            color: #EDE6D4;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        main {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            background-color: #FFFFFF; 
+            padding: 20px; 
+            overflow-y: auto; 
+        }
+        h1, h2 {
+            margin-top: 10px; 
+            margin-bottom: 5px; 
+            color: #2A2A2A; 
+            width: 100%; 
+            text-align: left; 
+        }
+        h1 {
+            font-size: 28px; 
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); 
+        }
+        h2 {
+            font-size: 22px; 
+            border-bottom: 2px solid #C6A566; 
+            padding-bottom: 5px; 
+        }
+        #content {
+            display: flex;
+            flex-direction: row; 
+            width: 100%;
+            margin-top: 10px; 
+        }
+        #map {
+            width: 800px; 
+            height: 400px; 
+            margin-right: 20px; 
+            border: 2px solid #C6A566; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+        }
+        #text-content {
+            flex: 1; 
+            padding: 20px; 
+            background-color: #EDE6D4; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
+        }
+        ul {
+            list-style-type: none; 
+            padding: 0; 
+        }
+        li {
+            background-color: #D3CFC4; 
+            margin: 5px 0; 
+            padding: 10px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            transition: background-color 0.3s; 
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+        }
+        li:hover {
+            background-color: #C6A566; 
+        }
+        .event-image {
+            width: 100%; /* Makes image responsive */
+            border-radius: 8px; /* Optional: adds rounded corners */
+            margin-top: 10px; /* Adds spacing above the image */
+        }
+        /* Smoother Overview Section */
+        .overview {
+            transition: all 0.3s ease-in-out; 
+            background-color: #F5F5F5; 
+            border-radius: 8px; 
+            padding: 15px; 
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <h2>Menu</h2>
+        <a href="index.html">Home</a>
+        <div class="nav-arrow">
+            <button id="prevButton">↑</button>
+            <span class="decade">1000</span>
+            <button id="nextButton">↓</button>
+        </div>
+    </nav>
+    
+    <main>
+        <section class="overview">
+            <h2>Overview</h2>
+            <p>The year 1000 marked significant developments in various parts of the world, including the expansion of Viking settlements and the growth of the Holy Roman Empire.</p>
+        </section>
+        
+        <h2>Key Events</h2>
+        <ul>
+            <li data-event="0"><strong>Viking Age Continues:</strong> The Viking Age is characterized by expansion and settlement across various territories.</li>
+            <li data-event="1"><strong>Holy Roman Empire:</strong> Otto III is crowned Holy Roman Emperor, symbolizing the unity of Christendom.</li>
+            <li data-event="2"><strong>Feudal System Development:</strong> The feudal system begins to take shape in Europe, altering social structures.</li>
+            <li data-event="3"><strong>Islamic Golden Age:</strong> Advancements in science, philosophy, and culture flourish in the Islamic world.</li>
+        </ul>
+
+        <h2>Map</h2>
+        <div id="content">
+            <div id="map"></div>
+            <div id="text-content">
+                <p>Select a marker on the map or an event in the list to view detailed information about the events of the year 1000.</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map for the year 1000
+        var map = L.map('map').setView([20.0, 0.0], 2); // Set initial view for global events
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+        
+        // Define key events for the year 1000
+        var events = [
+            {
+                year: 1000,
+                title: 'Viking Age Continues',
+                description: 'The Viking Age is characterized by expansion and settlement across various territories.',
+                coordinates: [60.0, 10.0], // Approximate coordinates for Viking territories
+                imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Vikings_3.jpg/640px-Vikings_3.jpg' // Image URL for Viking Age
+            },
+            {
+                year: 1000,
+                title: 'Holy Roman Empire',
+                description: 'Otto III is crowned Holy Roman Emperor, symbolizing the unity of Christendom.',
+                coordinates: [50.0, 10.0], // Approximate coordinates for Holy Roman Empire
+                imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Otto_III.jpg/640px-Otto_III.jpg' // Image URL for Otto III
+            },
+            {
+                year: 1000,
+                title: 'Feudal System Development',
+                description: 'The feudal system begins to take shape in Europe, altering social structures.',
+                coordinates: [48.0, 2.0], // Approximate coordinates for France
+                imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Feudal_system.jpg/640px-Feudal_system.jpg' // Image URL for Feudal System
+            },
+            {
+                year: 1000,
+                title: 'Islamic Golden Age',
+                description: 'Advancements in science, philosophy, and culture flourish in the Islamic world.',
+                coordinates: [34.0, 38.0], // Approximate coordinates for the Islamic world
+                imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Islamic_Golden_Age.jpg/640px-Islamic_Golden_Age.jpg' // Image URL for Islamic Golden Age
+            }
+        ];
+
+        // Adding markers to the map
+        events.forEach((event, index) => {
+            var marker = L.marker(event.coordinates).addTo(map);
+            marker.bindPopup(`<b>${event.title}</b><br>${event.description}<br><img class="event-image" src="${event.imageUrl}" alt="${event.title}">`);
+
+            // Add click event to the list items
+            document.querySelectorAll('li')[index].addEventListener('click', function() {
+                map.setView(event.coordinates, 5); // Zoom into the marker
+                marker.openPopup(); // Open popup on marker
+            });
+        });
+
+        // Navigation buttons
+        document.getElementById('prevButton').addEventListener('click', function() {
+            window.location.href = 'year900.html'; // Navigate to the previous page (year 900)
+        });
+
+        document.getElementById('nextButton').addEventListener('click', function() {
+            window.location.href = 'year1100.html'; // Navigate to the next page (year 1100)
+        });
+    </script>
+</body>
+</html>

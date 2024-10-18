@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historical Archive</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.1.0/nouislider.min.css" />
+    <style>
+        :root {
+            --primary-color: #2C2A29; /* Dark charcoal for the menu */
+            --accent-color: #C6A566; /* Warm gold for accents */
+            --background-color: #EAE6DB; /* Soft cream for background */
+            --text-color: #4B3D2C; /* Rich brown for text */
+            --timeline-bg: #D4CDA1; /* Light tan for the timeline */
+            --slider-handle: #A86F3A; /* Deep amber for slider handle */
+        }
+        body {
+            display: flex;
+            margin: 0;
+            font-family: 'Times New Roman', serif; /* Classic serif font */
+            height: 100vh;
+            background-color: var(--background-color);
+            line-height: 1.6;
+        }
+        nav {
+            width: 250px; /* Slightly wider menu */
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            border-right: 3px solid var(--accent-color); /* Decorative border */
+            overflow-y: auto; /* Allow scrolling for long menus */
+        }
+        nav h2 {
+            font-size: 24px; /* Larger heading */
+            margin-bottom: 20px;
+        }
+        nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            display: block;
+            padding: 10px 0;
+            transition: background 0.3s, color 0.3s;
+        }
+        nav a:hover {
+            background-color: var(--accent-color);
+            color: #fff; /* Change text color on hover */
+            border-radius: 5px;
+        }
+        .decade-links {
+            padding-left: 15px; /* Indent decade links */
+            display: none; /* Hide by default */
+        }
+        main {
+            flex-grow: 1;
+            position: relative;
+            background-color: var(--background-color);
+        }
+        #timeline {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background-color: var(--timeline-bg);
+            color: var(--text-color);
+            padding: 20px;
+            text-align: center;
+            border-top: 3px solid var(--accent-color); /* Classic border for timeline */
+            height: 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #map {
+            width: 100%;
+            height: calc(100vh - 250px); /* Adjusted height for better fit */
+            border: 3px solid var(--accent-color); /* Border for map */
+        }
+        #slider {
+            margin: 20px auto;
+            width: 80%;
+        }
+        #year {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .noUi-horizontal .noUi-handle {
+            background-color: var(--slider-handle);
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <nav aria-label="Main Menu">
+        <h2>Menu</h2>
+        <a href="#" data-century="1000s">Era 1 (1000-1099)</a>
+        <div class="decade-links" id="decade-1000s">
+            <a href="1000.html">1000</a>
+            <a href="1010.html">1010</a>
+            <a href="1020.html">1020</a>
+            <a href="1030.html">1030</a>
+            <a href="1040.html">1040</a>
+            <a href="1050.html">1050</a>
+            <a href="1060.html">1060</a>
+            <a href="1070.html">1070</a>
+            <a href="1080.html">1080</a>
+            <a href="1090.html">1090</a>
+        </div>
+        <a href="#" data-century="1100s">Era 2 (1100-1199)</a>
+        <div class="decade-links" id="decade-1100s">
+            <a href="1100.html">1100</a>
+            <a href="1110.html">1110</a>
+            <a href="1120.html">1120</a>
+            <a href="1130.html">1130</a>
+            <a href="1140.html">1140</a>
+            <a href="1150.html">1150</a>
+            <a href="1160.html">1160</a>
+            <a href="1170.html">1170</a>
+            <a href="1180.html">1180</a>
+            <a href="1190.html">1190</a>
+        </div>
+        <a href="#" data-century="1200s">Era 3 (1200-1299)</a>
+        <div class="decade-links" id="decade-1200s">
+            <a href="1200.html">1200</a>
+            <a href="1210.html">1210</a>
+            <a href="1220.html">1220</a>
+            <a href="1230.html">1230</a>
+            <a href="1240.html">1240</a>
+            <a href="1250.html">1250</a>
+            <a href="1260.html">1260</a>
+            <a href="1270.html">1270</a>
+            <a href="1280.html">1280</a>
+            <a href="1290.html">1290</a>
+        </div>
+        <a href="#" data-century="1300s">Era 4 (1300-1399)</a>
+        <div class="decade-links" id="decade-1300s">
+            <a href="1300.html">1300</a>
+            <a href="1310.html">1310</a>
+            <a href="1320.html">1320</a>
+            <a href="1330.html">1330</a>
+            <a href="1340.html">1340</a>
+            <a href="1350.html">1350</a>
+            <a href="1360.html">1360</a>
+            <a href="1370.html">1370</a>
+            <a href="1380.html">1380</a>
+            <a href="1390.html">1390</a>
+        </div>
+        <a href="#" data-century="1400s">Era 5 (1400-1499)</a>
+        <div class="decade-links" id="decade-1400s">
+            <a href="1400.html">1400</a>
+            <a href="1410.html">1410</a>
+            <a href="1420.html">1420</a>
+            <a href="1430.html">1430</a>
+            <a href="1440.html">1440</a>
+            <a href="1450.html">1450</a>
+            <a href="1460.html">1460</a>
+            <a href="1470.html">1470</a>
+            <a href="1480.html">1480</a>
+            <a href="1490.html">1490</a>
+        </div>
+        <a href="#" data-century="1500s">Era 6 (1500-1599)</a>
+        <div class="decade-links" id="decade-1500s">
+            <a href="1500.html">1500</a>
+            <a href="1510.html">1510</a>
+            <a href="1520.html">1520</a>
+            <a href="1530.html">1530</a>
+            <a href="1540.html">1540</a>
+            <a href="1550.html">1550</a>
+            <a href="1560.html">1560</a>
+            <a href="1570.html">1570</a>
+            <a href="1580.html">1580</a>
+            <a href="1590.html">1590</a>
+        </div>
+        <a href="#" data-century="1600s">Era 7 (1600-1699)</a>
+        <div class="decade-links" id="decade-1600s">
+            <a href="1600.html">1600</a>
+            <a href="1610.html">1610</a>
+            <a href="1620.html">1620</a>
+            <a href="1630.html">1630</a>
+            <a href="1640.html">1640</a>
+            <a href="1650.html">1650</a>
+            <a href="1660.html">1660</a>
+            <a href="1670.html">1670</a>
+            <a href="1680.html">1680</a>
+            <a href="1690.html">1690</a>
+        </div>
+        <a href="#" data-century="1700s">Era 8 (1700-1799)</a>
+        <div class="decade-links" id="decade-1700s">
+            <a href="1700.html">1700</a>
+            <a href="1710.html">1710</a>
+            <a href="1720.html">1720</a>
+            <a href="1730.html">1730</a>
+            <a href="1740.html">1740</a>
+            <a href="1750.html">1750</a>
+            <a href="1760.html">1760</a>
+            <a href="1770.html">1770</a>
+            <a href="1780.html">1780</a>
+            <a href="1790.html">1790</a>
+        </div>
+        <a href="#" data-century="1800s">Era 9 (1800-1899)</a>
+        <div class="decade-links" id="decade-1800s">
+            <a href="1800.html">1800</a>
+            <a href="1810.html">1810</a>
+            <a href="1820.html">1820</a>
+            <a href="1830.html">1830</a>
+            <a href="1840.html">1840</a>
+            <a href="1850.html">1850</a>
+            <a href="1860.html">1860</a>
+            <a href="1870.html">1870</a>
+            <a href="1880.html">1880</a>
+            <a href="1890.html">1890</a>
+        </div>
+        <a href="#" data-century="1900s">Era 10 (1900-1999)</a>
+        <div class="decade-links" id="decade-1900s">
+            <a href="1900.html">1900</a>
+            <a href="1910.html">1910</a>
+            <a href="1920.html">1920</a>
+            <a href="1930.html">1930</a>
+            <a href="1940.html">1940</a>
+            <a href="1950.html">1950</a>
+            <a href="1960.html">1960</a>
+            <a href="1970.html">1970</a>
+            <a href="1980.html">1980</a>
+            <a href="1990.html">1990</a>
+        </div>
+        <a href="#" data-century="2000s">Era 11 (2000-2099)</a>
+        <div class="decade-links" id="decade-2000s">
+            <a href="2000.html">2000</a>
+            <a href="2010.html">2010</a>
+            <a href="2020.html">2020</a>
+            <a href="2030.html">2030</a>
+            <a href="2040.html">2040</a>
+            <a href="2050.html">2050</a>
+            <a href="2060.html">2060</a>
+            <a href="2070.html">2070</a>
+            <a href="2080.html">2080</a>
+            <a href="2090.html">2090</a>
+        </div>
+    </nav>
+    <main>
+        <div id="map"></div>
+        <div id="timeline">
+            <div id="year">Year: <span id="year-label">2024</span></div>
+            <div id="slider"></div>
+        </div>
+    </main>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.1.0/nouislider.min.js"></script>
+    <script>
+        // Initialize map
+        var map = L.map('map').setView([20, 0], 2);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        // Define historical events
+        const events = [
+            { year: 1066, title: "Norman Conquest", description: "William the Conqueror invades England.", lat: 51.4965, lon: -0.1225 },
+            { year: 1215, title: "Magna Carta Signed", description: "Limits the powers of the king.", lat: 51.7520, lon: -0.1276 },
+            { year: 1492, title: "Columbus Discovers America", description: "Christopher Columbus reaches the Americas.", lat: 25.7617, lon: -80.1918 },
+            { year: 1776, title: "American Independence", description: "Declaration of Independence signed.", lat: 38.8977, lon: -77.0365 },
+            { year: 1789, title: "French Revolution Begins", description: "Start of a period of social and political upheaval in France.", lat: 48.8566, lon: 2.3522 },
+            { year: 1861, title: "American Civil War Begins", description: "Conflict between the Northern and Southern states.", lat: 37.0902, lon: -95.7129 },
+            { year: 1914, title: "World War I Begins", description: "Global conflict originating in Europe.", lat: 50.8503, lon: 4.3517 },
+            { year: 1929, title: "Great Depression Begins", description: "Global economic downturn.", lat: 40.7306, lon: -73.9352 },
+            { year: 1939, title: "World War II Begins", description: "Conflict begins in Europe with the invasion of Poland.", lat: 52.2297, lon: 21.0122 },
+            { year: 1969, title: "Moon Landing", description: "Apollo 11 lands on the moon.", lat: 0.0, lon: 0.0 },
+            { year: 1989, title: "Fall of the Berlin Wall", description: "Symbolic end of the Cold War.", lat: 52.5300, lon: 13.4050 },
+            { year: 2001, title: "9/11 Attacks", description: "Terrorist attacks in the United States.", lat: 40.7128, lon: -74.0060 },
+            { year: 2008, title: "Global Financial Crisis", description: "Major worldwide economic crisis.", lat: 37.7749, lon: -122.4194 },
+            { year: 2011, title: "Arab Spring", description: "A series of anti-government protests.", lat: 30.0444, lon: 31.2357 },
+            { year: 2020, title: "COVID-19 Pandemic", description: "Global pandemic caused by coronavirus.", lat: 0.0, lon: 0.0 }
+            // Add more events as needed
+        ];
+
+        // Create markers and store them for filtering
+        const markers = events.map(event => {
+            const marker = L.marker([event.lat, event.lon]).addTo(map);
+            marker.bindPopup(`<strong>${event.title}</strong><br>${event.description}<br><small>Year: ${event.year}</small>`);
+            marker.eventYear = event.year; // Attach year to marker for filtering
+            return marker;
+        });
+
+        // Initialize slider
+        var slider = document.getElementById('slider');
+        noUiSlider.create(slider, {
+            start: [2024],
+            range: {
+                'min': 1000,
+                'max': 2099
+            },
+            step: 1,
+            format: {
+                to: function (value) {
+                    return Math.round(value);
+                },
+                from: function (value) {
+                    return Number(value);
+                }
+            }
+        });
+
+        // Update year label and handle change event
+        slider.noUiSlider.on('update', function (values) {
+            const selectedYear = Math.round(values[0]);
+            document.getElementById('year-label').innerText = selectedYear;
+
+            // Show/hide markers based on the selected year
+            markers.forEach(marker => {
+                if (marker.eventYear <= selectedYear) {
+                    marker.addTo(map); // Add marker to the map if within range
+                } else {
+                    map.removeLayer(marker); // Remove marker if outside range
+                }
+            });
+        });
+
+        // Show/hide decade links on click
+        document.querySelectorAll('nav a[data-century]').forEach(function (link) {
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
+                const decadeId = 'decade-' + this.dataset.century;
+                const decadeLinks = document.getElementById(decadeId);
+                decadeLinks.style.display = decadeLinks.style.display === 'block' ? 'none' : 'block';
+            });
+        });
+    </script>
+</body>
+</html>
